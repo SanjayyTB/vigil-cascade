@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* VIGIL System Color Protocol */
+    --background: 220 15% 4%;
+    --foreground: 180 5% 75%;
+    
+    --card: 220 12% 6%;
+    --card-foreground: 180 5% 75%;
+    
+    --popover: 220 12% 6%;
+    --popover-foreground: 180 5% 75%;
+    
+    /* System accent - cold cyan */
+    --primary: 185 60% 45%;
+    --primary-foreground: 220 15% 4%;
+    
+    /* Warning/Anomaly - amber */
+    --secondary: 38 70% 50%;
+    --secondary-foreground: 220 15% 4%;
+    
+    /* Muted system text */
+    --muted: 220 10% 12%;
+    --muted-foreground: 180 3% 45%;
+    
+    /* Anomaly markers - crimson */
+    --accent: 0 70% 45%;
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 220 10% 15%;
+    --input: 220 10% 12%;
+    --ring: 185 60% 45%;
+    
+    --radius: 0.25rem;
+    
+    /* VIGIL Custom Tokens */
+    --hollow: 270 50% 20%;
+    --hollow-glow: 270 60% 35%;
+    --redacted: 0 0% 8%;
+    --terminal-green: 120 40% 45%;
+    --corruption: 0 60% 40%;
+    
+    /* Scanline effect */
+    --scanline-opacity: 0.03;
+    
+    /* Typography */
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  .dark {
+    --background: 220 15% 4%;
+    --foreground: 180 5% 75%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-mono);
+  }
+
+  /* CRT Scanline Effect */
+  .scanlines::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--background) / var(--scanline-opacity)) 2px,
+      hsl(var(--background) / var(--scanline-opacity)) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Text corruption effect */
+  @keyframes textGlitch {
+    0%, 100% { opacity: 1; transform: translateX(0); }
+    20% { opacity: 0.8; transform: translateX(-2px); }
+    40% { opacity: 1; transform: translateX(2px); }
+    60% { opacity: 0.9; transform: translateX(-1px); }
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.95; }
+    75% { opacity: 0.98; }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  @keyframes corruption-wave {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @keyframes static-noise {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 100%; }
+  }
+
+  .glitch-text {
+    animation: textGlitch 0.3s ease-in-out;
+  }
+
+  .flicker {
+    animation: flicker 4s ease-in-out infinite;
+  }
+
+  .pulse-glow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+
+  .cursor-blink {
+    animation: cursor-blink 1s step-end infinite;
+  }
+
+  /* Redacted block styling */
+  .redacted-block {
+    background: hsl(var(--redacted));
+    color: transparent;
+    user-select: none;
+    position: relative;
+  }
+
+  .redacted-block::after {
+    content: '[REDACTED]';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: hsl(var(--muted-foreground));
+    font-size: 0.7em;
+    letter-spacing: 0.2em;
+  }
+
+  /* Terminal styling */
+  .terminal-line::before {
+    content: '>';
+    color: hsl(var(--primary));
+    margin-right: 0.5rem;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
+    color: hsl(var(--foreground));
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+}
+
+@layer utilities {
+  .text-system {
+    @apply text-primary font-medium tracking-wide;
+  }
+
+  .text-warning {
+    @apply text-secondary font-medium;
+  }
+
+  .text-anomaly {
+    @apply text-accent font-bold;
+  }
+
+  .text-hollow {
+    color: hsl(var(--hollow-glow));
+    text-shadow: 0 0 10px hsl(var(--hollow-glow) / 0.5);
+  }
+
+  .border-terminal {
+    @apply border border-primary/30;
+  }
+
+  .bg-terminal {
+    @apply bg-card;
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
+  }
+
+  .glow-anomaly {
+    box-shadow: 0 0 30px hsl(var(--accent) / 0.3);
+  }
+
+  .noise-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+}
