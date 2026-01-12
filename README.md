@@ -5,6 +5,8 @@
 
 ### ╼ PROJECT OVERVIEW
 **DESIGNATION**: IGN-Λ17 (The Corridor of Choice)  
+**STATUS**: [LIVE OPERATIONAL]  
+**DIRECT ACCESS**: [igna17.netlify.app](https://igna17.netlify.app/)  
 **CLASS**: Cognitive Recursive Anomaly  
 **THREAT VECTOR**: Belief Manipulation / Deterministic Feedback Loops  
 **ORIGIN**: [REDACTED]
